@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+
+
+<title>Binary Converter</title>
+</head>
+<body>
+
+
+    <style>
+
+.wrapper{
+    width: 550px;
+    display: table;
+}
+
+.container {
+    float: left;
+}
+.container button {
+    display: block;
+    margin: 0 auto;
+}
+.buttons {
+    vertical-align: middle;
+}
+.buttons button {
+    width: 150px;
+    display: block;
+}
+.buttons button:nth-child(1) {
+    margin-top: 35px;
+}
+.buttons button:nth-child(2) {
+    margin-top: 5px;
+}
+.buttons button:nth-child(3) {
+    margin-top: 30px;
+}
+
+
+    </style>
+
+    <div class="wrapper">
+        <div class="container">
+            <textarea id="stringInput" cols="20" rows="10" placeholder=""></textarea>
+            <button id="clearString">Clear</button>
+        </div>
+        <div class="container buttons">
+            <button id="convertBinary">Convert To Binary &gt&gt</button>
+            <button id="convertString">&lt&lt Convert To Text</button>
+            <button id="clearAll">&lt&lt Clear All &gt&gt</button>
+        </div>
+        <div class="container">
+            <textarea id="binaryInput" cols="20" rows="10" placeholder=""></textarea>
+            <button id="clearBinary">Clear</button>
+        </div>
+    </div>
+    
+<script>
+
+
+// converts a string value to its equivlant binary representation.
+function stringToBinary(stringValue) {
+    return stringValue.replace(/.{1}/g, function (matchedString) {
+        var binString = matchedString.charCodeAt(0).toString(2);
+        return '00000000'.substring(0, 8 - binString.length) + binString;
+    });
+}
+
+// converts a binary value to its equivlant string representation.
+function binaryToString(binValue) {
+    return binValue.replace(/[01]{8}/g, function (matchedString) {
+        return String.fromCharCode(parseInt(matchedString, 2));
+    });
+}
+
+// initialise document
+(function initialise() {
+    var placeholderString = 'enter text here...',
+        stringInput = document.getElementById('stringInput'),
+        binaryInput = document.getElementById('binaryInput'),
+        convertString = document.getElementById('convertBinary'),
+        convertBinary = document.getElementById('convertString'),
+        clearString = document.getElementById('clearString'),
+        clearBinary = document.getElementById('clearBinary'),
+        clearAll = document.getElementById('clearAll');
+
+    convertString.addEventListener('click', function () {
+        binaryInput.value = stringToBinary(stringInput.value);
+    });
+
+    convertBinary.addEventListener('click', function () {
+        stringInput.value = binaryToString(binaryInput.value);
+    });
+
+    clearString.addEventListener('click', function () {
+        stringInput.value = '';
+    });
+
+    clearBinary.addEventListener('click', function () {
+        binaryInput.value = '';
+    });
+
+    clearAll.addEventListener('click', function () {
+        stringInput.value = '';
+        binaryInput.value = '';
+    });
+
+    // Use own code to set placeholders
+    stringInput.setAttribute('placeholder', placeholderString);
+    binaryInput.setAttribute('placeholder', stringToBinary(placeholderString));
+})();
+
+</script>
+
+
+</body>
+</html> 
